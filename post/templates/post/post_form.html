@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        글 수정
+    {% else %}
+        글 작성
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>
+        {% if form.instance.pk %}
+            글 수정
+        {% else %}
+            글 작성
+        {% endif %}
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">저장</button>
+        <a href="{% url 'post_list' %}" class="btn-cancel">취소</a>
+    </form>
+</div>
+{% endblock %}

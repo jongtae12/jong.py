@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}프로필{% endblock %}
+
+{% block content %}
+<div class="post-container">
+    <h2>프로필</h2>
+    <div class="profile-info">
+        {% if user.profile.image %}
+            <img src="{{ user.profile_image.url }}" alt="{{ user.username }}프로필 이미지" width="300">
+        {% endif %}
+        <h3>{{ user.username }}</h3>
+        <p>{{user.bio|default:"소개글이 없습니다."}}</p>
+    </div>
+
+    <div class="user-posts">
+        <h3>작성한 글</h3>
+        {% for post in user.post_set.all %}
+            <div class="post-item">
+                <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                <span>{{ post.created_at|date:"Y-m-d" }}</span>
+            </div>                     
+        {% empty %}
+            <p>작성한 글이 없습니다.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

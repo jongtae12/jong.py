@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+    <h2>{{post.title}}</h2>
+    <div class="post-meta">
+        <span>{{post.created_at|date:"Y-m-d"}}</span>
+        <span>작성자: {{post.author}}</span>
+        {% if post.updated_at %}
+            <span>수정일: {{post.updated_at|date:"Y-m-d"}}</span>
+        {% endif %}
+    </div>
+
+    <div class="post-content">
+        <p>{{post.content|linerbreaks}}</p>
+    </div>
+
+    {% if user==post.author %}
+        <div class="post-actions">
+            <a href="{% url 'post_update' post.pk %}" class="btn-update">수정</a>
+            <form method="post" action="{% url 'post_delete' post.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-delete">삭제</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'post_list' %}" class="btn-back">목록</a>
+</div>
+{% endblock %}
